@@ -7,9 +7,6 @@ import (
 	"github.com/emicklei/go-restful/v3"
 )
 
-// defaultPrefix url prefix of pprof
-const defaultPrefix = "/debug/pprof"
-
 func WrapF(f http.HandlerFunc) restful.RouteFunction {
 	return func(req *restful.Request, resp *restful.Response) {
 		f(resp.ResponseWriter, req.Request)
@@ -24,7 +21,7 @@ func WrapH(f http.Handler) restful.RouteFunction {
 
 func Router(container *restful.Container) {
 	ws := new(restful.WebService)
-	ws.Path(defaultPrefix)
+	ws.Path("/debug/pprof")
 	ws.Route(ws.GET("/").To(WrapF(pprof.Index)))
 	ws.Route(ws.GET("/cmdline").To(WrapF(pprof.Cmdline)))
 	ws.Route(ws.GET("/profile").To(WrapF(pprof.Profile)))
