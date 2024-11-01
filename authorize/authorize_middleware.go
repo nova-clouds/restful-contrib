@@ -56,5 +56,4 @@ func (a *Auth[T]) Middleware(opts ...Option) restful.FilterFunction {
 		}
 		chain.ProcessFilter(req, resp)
 	}
-
 }
