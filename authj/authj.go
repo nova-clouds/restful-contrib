@@ -92,7 +92,6 @@ func Authorizer(e casbin.IEnforcer, opts ...Option) restful.FilterFunction {
 		opt(&cfg)
 	}
 	return func(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
-
 		if !cfg.skipAuthentication(req, resp) {
 			// checks the subject,path,method permission combination from the request.
 			allowed, err := e.Enforce(cfg.subject(req, resp), req.Request.URL.Path, req.Request.Method)
