@@ -3,6 +3,7 @@ module github.com/iot-labs-team/restful-contrib
 go 1.22
 
 require (
+	github.com/casbin/casbin/v2 v2.100.0
 	github.com/emicklei/go-restful/v3 v3.12.1
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/stretchr/testify v1.9.0
@@ -11,6 +12,8 @@ require (
 )
 
 require (
+	github.com/bmatcuk/doublestar/v4 v4.7.1 // indirect
+	github.com/casbin/govaluate v1.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
