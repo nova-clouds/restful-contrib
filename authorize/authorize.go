@@ -37,7 +37,7 @@ type Config struct {
 	Algorithm string
 	// Secret key used for signing.
 	// Required, if Algorithm is one of HS256, HS384, HS512.
-	Key []byte
+	Key string
 	// Private key for asymmetric algorithms,
 	// Public key for asymmetric algorithms
 	// Required, if Algorithm is one of RS256, RS384, RS512, EdDSA.
@@ -98,14 +98,14 @@ func New[T any](c Config) (*Auth[T], error) {
 			return nil, ErrInvalidPubKey
 		}
 	default: // "HS256", "HS512", "HS384" or empty string
-		if c.Key == nil {
+		if c.Key == "" {
 			return nil, ErrMissingSecretKey
 		}
 		if !slices.Contains([]string{"HS256", "HS512", "HS384"}, c.Algorithm) {
 			c.Algorithm = "HS256"
 		}
-		mw.encodeKey = c.Key
-		mw.decodeKey = c.Key
+		mw.encodeKey = []byte(c.Key)
+		mw.decodeKey = []byte(c.Key)
 	}
 	mw.signingMethod = jwt.GetSigningMethod(c.Algorithm)
 	return mw, nil

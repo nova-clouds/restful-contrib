@@ -22,7 +22,7 @@ func main() {
 		RefreshTimeout: time.Hour * (24 + 1),
 		Lookup:         "header:Authorization:Bearer",
 		Algorithm:      "HS256",
-		Key:            []byte("testSecretKey"),
+		Key:            "testSecretKey",
 		PrivKey:        "",
 		PubKey:         "",
 		Issuer:         "gin-contrib",
