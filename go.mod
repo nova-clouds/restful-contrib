@@ -1,6 +1,6 @@
 module github.com/iot-labs-team/restful-contrib
 
-go 1.22
+go 1.23
 
 require (
 	github.com/casbin/casbin/v2 v2.101.0
