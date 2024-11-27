@@ -18,7 +18,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
-	"github.com/iot-labs-team/restful-contrib/internal/pool"
+	"github.com/iot-sonata/restful-contrib/internal/pool"
 )
 
 // Option logger/recover option

@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/iot-labs-team/restful-contrib/gormzap"
+	"github.com/iot-sonata/restful-contrib/gormzap"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

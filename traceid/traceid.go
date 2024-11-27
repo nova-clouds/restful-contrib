@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/emicklei/go-restful/v3"
-	"github.com/iot-labs-team/restful-contrib/utilities/sequence"
+	"github.com/iot-sonata/restful-contrib/utilities/sequence"
 )
 
 // Key to use when setting the trace id.

@@ -8,7 +8,7 @@ import (
 	"github.com/casbin/casbin/v2"
 	"github.com/emicklei/go-restful/v3"
 
-	"github.com/iot-labs-team/restful-contrib/authj"
+	"github.com/iot-sonata/restful-contrib/authj"
 )
 
 func main() {

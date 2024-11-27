@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/emicklei/go-restful/v3"
-	"github.com/iot-labs-team/restful-contrib/gzap"
+	"github.com/iot-sonata/restful-contrib/gzap"
 	"go.uber.org/zap"
 )
 

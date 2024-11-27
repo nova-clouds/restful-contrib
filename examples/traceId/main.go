@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/emicklei/go-restful/v3"
-	"github.com/iot-labs-team/restful-contrib/traceid"
+	"github.com/iot-sonata/restful-contrib/traceid"
 )
 
 func main() {

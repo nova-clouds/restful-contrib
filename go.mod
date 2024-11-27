@@ -1,4 +1,4 @@
-module github.com/iot-labs-team/restful-contrib
+module github.com/iot-sonata/restful-contrib
 
 go 1.23
 

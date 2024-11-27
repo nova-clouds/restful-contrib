@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 
-	"github.com/iot-labs-team/restful-contrib/internal/pool"
+	"github.com/iot-sonata/restful-contrib/internal/pool"
 )
 
 // Logger logger for gorm2

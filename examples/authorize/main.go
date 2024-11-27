@@ -8,7 +8,7 @@ import (
 
 	"github.com/emicklei/go-restful/v3"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/iot-labs-team/restful-contrib/authorize"
+	"github.com/iot-sonata/restful-contrib/authorize"
 )
 
 type Account struct {
