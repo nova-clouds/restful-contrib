@@ -71,6 +71,10 @@ func FromTraceId(ctx context.Context) string {
 	return traceId
 }
 
+func InjectNewFromTraceId(ctx, newCtx context.Context) context.Context {
+	return WithTraceId(newCtx, FromTraceId(ctx))
+}
+
 // NextTraceId returns the next trace id, use sequence global sequence.
 func NextTraceId() string {
 	return sequence.NextSequence()
