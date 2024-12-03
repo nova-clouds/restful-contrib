@@ -3,7 +3,7 @@ module github.com/iot-sonata/restful-contrib
 go 1.23
 
 require (
-	github.com/casbin/casbin/v2 v2.101.0
+	github.com/casbin/casbin/v2 v2.102.0
 	github.com/emicklei/go-restful/v3 v3.12.1
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/stretchr/testify v1.10.0
