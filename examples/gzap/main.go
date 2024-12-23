@@ -37,6 +37,7 @@ func main() {
 			return req.Request.URL.Path == "/skiplogging"
 		}),
 		gzap.WithEnableBody(true),
+		gzap.WithEnableDebugCurl(true),
 	))
 
 	// Logs all panic to error log

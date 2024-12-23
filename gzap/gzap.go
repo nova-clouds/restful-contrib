@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/emicklei/go-restful/v3"
+	"github.com/thinkgos/httpcurl"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
@@ -91,6 +92,16 @@ func WithUseLoggerLevel(f func(req *restful.Request, resp *restful.Response) zap
 	}
 }
 
+func WithEnableDebugCurl(b bool) Option {
+	return func(c *Config) {
+		if b {
+			c.debugCurl = httpcurl.New()
+		} else {
+			c.debugCurl = nil
+		}
+	}
+}
+
 // Config logger/recover config
 type Config struct {
 	customFields []func(req *restful.Request, resp *restful.Response) zap.Field
@@ -106,8 +117,9 @@ type Config struct {
 	// 	zap.WarnLevel: when status >= http.StatusBadRequest && status <= http.StatusUnavailableForLegalReasons
 	//  zap.InfoLevel: otherwise.
 	useLoggerLevel func(req *restful.Request, resp *restful.Response) zapcore.Level
-	enableBody     *atomic.Bool // enable request/response body
-	limit          int          // <=0: mean not limit
+	enableBody     *atomic.Bool       // enable request/response body
+	limit          int                // <=0: mean not limit
+	debugCurl      *httpcurl.HttpCurl // debug curl
 }
 
 func skipRequestBody(req *restful.Request, resp *restful.Response) bool {
@@ -163,10 +175,12 @@ func Logger(logger *zap.Logger, opts ...Option) restful.FilterFunction {
 	return func(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
 		respBodyBuilder := &strings.Builder{}
 		reqBody := "skip request body"
+		debugCurl := ""
+		hasSkipRequestBody := skipRequestBody(req, resp) || cfg.skipRequestBody(req, resp)
 
 		if cfg.enableBody.Load() {
 			resp.ResponseWriter = &bodyWriter{ResponseWriter: resp.ResponseWriter, dupBody: respBodyBuilder}
-			if hasSkipRequestBody := skipRequestBody(req, resp) || cfg.skipRequestBody(req, resp); !hasSkipRequestBody {
+			if !hasSkipRequestBody {
 				reqBodyBuf, err := io.ReadAll(req.Request.Body)
 				if err != nil {
 					_ = resp.WriteError(http.StatusInternalServerError, err)
@@ -180,6 +194,9 @@ func Logger(logger *zap.Logger, opts ...Option) restful.FilterFunction {
 					reqBody = string(reqBodyBuf)
 				}
 			}
+		}
+		if !hasSkipRequestBody && cfg.debugCurl != nil {
+			debugCurl, _ = cfg.debugCurl.IntoCurl(req.Request)
 		}
 
 		start := time.Now()
@@ -231,6 +248,9 @@ func Logger(logger *zap.Logger, opts ...Option) restful.FilterFunction {
 					zap.String("requestBody", reqBody),
 					zap.String("responseBody", respBody),
 				)
+			}
+			if debugCurl != "" {
+				fc.Fields = append(fc.Fields, zap.String("curl", debugCurl))
 			}
 			for _, fieldFunc := range cfg.customFields {
 				fc.Fields = append(fc.Fields, fieldFunc(req, resp))
