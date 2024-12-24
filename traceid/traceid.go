@@ -2,9 +2,13 @@ package traceid
 
 import (
 	"context"
+	"crypto/rand"
+	"io"
+	"sync"
+	"time"
 
 	"github.com/emicklei/go-restful/v3"
-	"github.com/iot-sonata/restful-contrib/utilities/sequence"
+	"github.com/oklog/ulid/v2"
 )
 
 // Key to use when setting the trace id.
@@ -75,7 +79,17 @@ func InjectNewFromTraceId(ctx, newCtx context.Context) context.Context {
 	return WithTraceId(newCtx, FromTraceId(ctx))
 }
 
-// NextTraceId returns the next trace id, use sequence global sequence.
+var (
+	entropy     io.Reader
+	entropyOnce sync.Once
+)
+
+// NextTraceId next returns the trace id, which use ulid.
 func NextTraceId() string {
-	return sequence.NextSequence()
+	entropyOnce.Do(func() {
+		entropy = &ulid.LockedMonotonicReader{
+			MonotonicReader: ulid.Monotonic(rand.Reader, 0),
+		}
+	})
+	return ulid.MustNew(uint64(time.Now().UTC().UnixMilli()), entropy).String()
 }

@@ -6,6 +6,7 @@ require (
 	github.com/casbin/casbin/v2 v2.102.0
 	github.com/emicklei/go-restful/v3 v3.12.1
 	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/oklog/ulid/v2 v2.1.0
 	github.com/stretchr/testify v1.10.0
 	github.com/thinkgos/httpcurl v0.1.0
 	go.uber.org/zap v1.27.0
