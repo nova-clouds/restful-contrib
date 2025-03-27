@@ -19,7 +19,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
-	"github.com/iot-sonata/restful-contrib/internal/pool"
+	"github.com/nova-clouds/restful-contrib/internal/pool"
 )
 
 // Option logger/recover option
@@ -125,7 +125,7 @@ type Config struct {
 func skipRequestBody(req *restful.Request, resp *restful.Response) bool {
 	v := req.Request.Header.Get("Content-Type")
 	d, params, err := mime.ParseMediaType(v)
-	if err != nil || !(d == "multipart/form-data" || d == "multipart/mixed") {
+	if err != nil || (d != "multipart/form-data" && d != "multipart/mixed") {
 		return false
 	}
 	_, ok := params["boundary"]
@@ -186,7 +186,7 @@ func Logger(logger *zap.Logger, opts ...Option) restful.FilterFunction {
 					_ = resp.WriteError(http.StatusInternalServerError, err)
 					return
 				}
-				req.Request.Body.Close()
+				req.Request.Body.Close() // nolint: errcheck
 				req.Request.Body = io.NopCloser(bytes.NewBuffer(reqBodyBuf))
 				if cfg.limit > 0 && len(reqBodyBuf) >= cfg.limit {
 					reqBody = "larger request body"
@@ -301,7 +301,7 @@ func Recovery(logger *zap.Logger, stack bool, opts ...Option) restful.FilterFunc
 						zap.ByteString("request", httpRequest),
 					)
 					// If the connection is dead, we can't write a status to it.
-					resp.WriteError(http.StatusInternalServerError, err.(error))
+					resp.WriteError(http.StatusInternalServerError, err.(error)) // nolint: errcheck
 					return
 				}
 
@@ -315,7 +315,7 @@ func Recovery(logger *zap.Logger, stack bool, opts ...Option) restful.FilterFunc
 					fc.Fields = append(fc.Fields, field(req, resp))
 				}
 				logger.Error("recovery from panic", fc.Fields...)
-				resp.WriteErrorString(http.StatusInternalServerError, "panic")
+				resp.WriteErrorString(http.StatusInternalServerError, "panic") // nolint: errcheck
 			}
 		}()
 		chain.ProcessFilter(req, resp)

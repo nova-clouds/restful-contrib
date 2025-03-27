@@ -8,7 +8,7 @@ import (
 
 	"github.com/emicklei/go-restful/v3"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/iot-sonata/restful-contrib/authorize"
+	"github.com/nova-clouds/restful-contrib/authorize"
 )
 
 type Account struct {
@@ -61,7 +61,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		resp.WriteAsJson(map[string]any{
+		resp.WriteAsJson(map[string]any{ // nolint: errcheck
 			"code":       http.StatusOK,
 			"token":      tk,
 			"expires_at": expiresAt.Unix(),

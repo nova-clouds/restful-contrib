@@ -68,7 +68,7 @@ func WithSkipAuthentication(fn func(*restful.Request, *restful.Response) bool) O
 func Authorizer(e casbin.IEnforcer, opts ...Option) restful.FilterFunction {
 	cfg := Config{
 		func(req *restful.Request, resp *restful.Response, err error) {
-			resp.WriteHeaderAndJson(
+			resp.WriteHeaderAndJson( // nolint: errcheck
 				http.StatusInternalServerError, map[string]any{
 					"code": http.StatusInternalServerError,
 					"msg":  "Permission validation errors occur!",
@@ -77,7 +77,7 @@ func Authorizer(e casbin.IEnforcer, opts ...Option) restful.FilterFunction {
 			)
 		},
 		func(req *restful.Request, resp *restful.Response) {
-			resp.WriteHeaderAndJson(
+			resp.WriteHeaderAndJson( // nolint: errcheck
 				http.StatusForbidden, map[string]any{
 					"code": http.StatusForbidden,
 					"msg":  "Permission denied!",

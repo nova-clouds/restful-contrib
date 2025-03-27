@@ -91,7 +91,7 @@ func TestRBAC(t *testing.T) {
 	ws.Filter(Authorizer(e,
 		WithSubject(Subject),
 		WithErrorFallback(func(req *restful.Request, resp *restful.Response, err error) {
-			resp.WriteHeaderAndJson(
+			resp.WriteHeaderAndJson( // nolint: errcheck
 				http.StatusInternalServerError, map[string]any{
 					"code": http.StatusInternalServerError,
 					"msg":  "Permission validation errors occur!",
@@ -100,7 +100,7 @@ func TestRBAC(t *testing.T) {
 			)
 		}),
 		WithForbiddenFallback(func(req *restful.Request, resp *restful.Response) {
-			resp.WriteHeaderAndJson(
+			resp.WriteHeaderAndJson( // nolint: errcheck
 				http.StatusForbidden, map[string]any{
 					"code": http.StatusForbidden,
 					"msg":  "Permission denied!",
@@ -148,7 +148,7 @@ func TestSkipAuthentication(t *testing.T) {
 	ws.Filter(Authorizer(e,
 		WithSubject(Subject),
 		WithErrorFallback(func(req *restful.Request, resp *restful.Response, err error) {
-			resp.WriteHeaderAndJson(
+			resp.WriteHeaderAndJson( // nolint: errcheck
 				http.StatusInternalServerError, map[string]any{
 					"code": http.StatusInternalServerError,
 					"msg":  "Permission validation errors occur!",
@@ -157,7 +157,7 @@ func TestSkipAuthentication(t *testing.T) {
 			)
 		}),
 		WithForbiddenFallback(func(req *restful.Request, resp *restful.Response) {
-			resp.WriteHeaderAndJson(
+			resp.WriteHeaderAndJson( // nolint: errcheck
 				http.StatusForbidden, map[string]any{
 					"code": http.StatusForbidden,
 					"msg":  "Permission denied!",

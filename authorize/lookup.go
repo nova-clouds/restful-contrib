@@ -34,7 +34,7 @@ func NewLookup(lookup string) *Lookup {
 	lookups := make(MultiExtractor, 0, len(methods))
 	for _, method := range methods {
 		parts := strings.Split(strings.TrimSpace(method), ":")
-		if !(len(parts) == 2 || len(parts) == 3) {
+		if len(parts) != 2 && len(parts) != 3 {
 			continue
 		}
 		switch parts[0] {

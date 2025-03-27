@@ -121,7 +121,7 @@ func TestExtractor(t *testing.T) {
 }
 
 func makeTestRequest(method, path string, headers, cookie map[string]string, urlArgs url.Values) *http.Request {
-	r, _ := http.NewRequest(method, fmt.Sprintf("%v?%v", path, urlArgs.Encode()), nil)
+	r, _ := http.NewRequest(method, fmt.Sprintf("%v?%v", path, urlArgs.Encode()), nil) // nolint: noctx
 	for k, v := range headers {
 		r.Header.Set(k, v)
 	}

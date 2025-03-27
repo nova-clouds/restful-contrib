@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/emicklei/go-restful/v3"
-	"github.com/iot-sonata/restful-contrib/gzap"
+	"github.com/nova-clouds/restful-contrib/gzap"
 	"go.uber.org/zap"
 )
 
@@ -26,7 +26,6 @@ func main() {
 		gzap.WithCustomFields(
 			gzap.String("app", "example"),
 			func(req *restful.Request, resp *restful.Response) zap.Field {
-
 				return zap.String("custom field1", req.Request.URL.RawPath /*c.ClientIP()*/)
 			},
 			func(req *restful.Request, resp *restful.Response) zap.Field {
@@ -67,7 +66,7 @@ func main() {
 	}))
 
 	ws.Route(ws.GET("/error").To(func(req *restful.Request, resp *restful.Response) {
-		_ = resp.WriteError(http.StatusOK, errors.New("An error happen 1"))
+		_ = resp.WriteError(http.StatusOK, errors.New("an error happen 1"))
 	}))
 
 	ws.Route(ws.GET("/skiplogging").To(func(req *restful.Request, resp *restful.Response) {
@@ -79,5 +78,4 @@ func main() {
 	// DO NOT wrap http.ListenAndServe with log.Fatal in production
 	// or you won't be able to drain in-flight request gracefully, even you handle sigterm
 	log.Fatal(http.ListenAndServe(":8080", nil))
-
 }
