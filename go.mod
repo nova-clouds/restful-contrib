@@ -3,7 +3,7 @@ module github.com/nova-clouds/restful-contrib
 go 1.24
 
 require (
-	github.com/casbin/casbin/v2 v2.104.0
+	github.com/casbin/casbin/v2 v2.105.0
 	github.com/emicklei/go-restful/v3 v3.12.2
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/oklog/ulid/v2 v2.1.0
